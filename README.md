@@ -22,26 +22,27 @@ new Thread(runnable).start
 
 
 
-Thread.sleep(mills)를 사용하여 쓰레드의 동작을 일시정지할 수 있다
+- Thread.sleep(mills)를 사용하여 쓰레드의 동작을 일시정지할 수 있다
 
-Thread.setPriority(int)를 사용하여 쓰레드의 우선 순위를 설정할 수 있다
+- Thread.setPriority(int)를 사용하여 쓰레드의 우선 순위를 설정할 수 있다
 
-Thread.isAlive()를 사용하여 쓰레드 작동 여부를 Boolean 값으로 받아올 수 있다.
-
-
-
-Daemon Thread는 부모 쓰레드가 동작 중일 때만 동작한다
-
-Thread.setDaemon(Bool)로 지정할 수 있다
+- Thread.isAlive()를 사용하여 쓰레드 작동 여부를 Boolean 값으로 받아올 수 있다.
 
 
 
-함수에 synchronized를 붙여 쓰레드의 접근을 제어하여 자원을 관리할 수 있다. (하지만 많이 사용하면 성능이 떨어진다)
-
-성능 향상을 위해 함수의 특정 부분만 synchronized (this){}를 사용할 수 있다.
+- Daemon Thread는 부모 쓰레드가 동작 중일 때만 동작한다. Thread.setDaemon(Bool)로 지정할 수 있다
 
 
 
-Thread.join()을 사용하여 쓰레드의 작업을 기다릴 수 있다 
+- 함수에 synchronized를 붙여 쓰레드의 접근을 제어하여 자원을 관리할 수 있다. (하지만 많이 사용하면 성능이 떨어진다)
 
-Thread.stop()을 사용하면 쓰레드를 중단할 수 있으나 Deprecated되어 Thread.interrupt()를 사용한다(하지만 자식 쓰레드의 sleep상태를 깨우는 것 뿐, 자식 쓰레드가 실행 중이면 강제로 중단할 수는 없다)
+- 성능 향상을 위해 함수의 특정 부분만 synchronized (this){}를 사용할 수 있다.
+
+
+
+- Thread.join()을 사용하여 쓰레드의 작업을 기다릴 수 있다 
+
+- Thread.stop()을 사용하면 쓰레드를 중단할 수 있으나 Deprecated되어 Thread.interrupt()를 사용한다(하지만 자식 쓰레드의 sleep상태를 깨우는 것 뿐, 자식 쓰레드가 실행 중이면 강제로 중단할 수는 없다)
+
+
+
