@@ -116,3 +116,10 @@ os.write(bytes);
 ```
 
 OutputStream.write(byte[])로 서버에 데이터를 보낼 수 있다.
+
+```java
+is.read(bytes);
+```
+
+InputStream.write(byte[])로 데이터를 받을 수 있다.
+

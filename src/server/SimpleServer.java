@@ -29,7 +29,12 @@ public class SimpleServer {
             OutputStream os = socket.getOutputStream();
 
             byte[] bytes = new byte[4096];
-            int length = is.read(bytes);
+            while (true){
+                int length = is.read(bytes);
+                String message = new String(bytes, 0, length);
+                os.write(bytes, 0, length);
+                System.out.println(message);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
