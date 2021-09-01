@@ -48,8 +48,6 @@ Thread.setDaemon(Boolean)
 
 Daemon Thread로 설정할 수 있다. Daemon Thread는 부모 쓰레드가 동작 중일 때만 동작한다.
 
-
-
 - 함수에 synchronized를 붙여 쓰레드의 접근을 제어하여 자원을 관리할 수 있다. (하지만 많이 사용하면 성능이 떨어진다.)
 
 - 성능 향상을 위해 함수의 특정 부분만 synchronized (this){}를 사용할 수 있다.
@@ -79,3 +77,42 @@ Object.wait(mills)을 사용하여 쓰레드를 멈출 수 있다.
 mills 시간이 지나거나 Object.notify를 통해 멈춤을 해제할 수 있다. (임의의 하나 쓰레드)
 
 Object.notifyAll()을 사용하면 해당 Object를 사용하는 모든 쓰레드를 꺠운다.
+
+## Socket
+
+```java
+Socket socket = new Socket(SERVER_ADDRESS, PORT);
+```
+
+Socet(ADDRESS, PORT) 인스턴스를 만들어 소켓을 연결할 수 있다.
+
+```java
+ServerSocket serverSocket = new ServerSocket(PORT);
+```
+
+ServerSocket(PORT) 인스턴스를 만들어 서버 소켓을 열 수 있다.
+
+```java
+Socket socket = serverSocket.accept();
+```
+
+ServerSocket.accept()를 사용하여 클라이언트 소켓 접속을 기다릴 수 있다.
+
+```java
+Socket.close()
+```
+
+소켓 연결을 해제할 수 있다.
+
+```java
+InputStream is = socket.getInputStream();
+OutputStream os = socket.getOutputStream();
+```
+
+socket.getInputStream, socket.getOutputStream으로 InputStream, OutputStream을 만들 수 있다.
+
+```java
+os.write(bytes);
+```
+
+OutputStream.write(byte[])로 서버에 데이터를 보낼 수 있다.
