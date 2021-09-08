@@ -49,6 +49,4 @@ public class CommonClient extends SocketWorkerAdapter {
     }
 
 
-
-
 }

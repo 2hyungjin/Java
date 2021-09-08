@@ -123,3 +123,157 @@ is.read(bytes);
 
 InputStream.write(byte[])로 데이터를 받을 수 있다.
 
+## java.nio
+
+java.io의 성능향상을 위해 만들어진 new io
+
+```java
+Path path= Paths.get(Uri)
+```
+
+해당 Uri의 파일의 경로(Path)를 생성한다.
+
+```java
+path.getFileName()
+```
+
+해당 경로의 파일의 이름을 반환한다.
+
+```java
+path.getParent()
+```
+
+해당 경로의 부모 경로를 반환한다.
+
+```java
+System.out.println(String.format("디렉토리 여부 : %s", Files.isDirectory(path)));
+System.out.println(String.format("파일 여부 : %s", Files.isRegularFile(path)));
+System.out.println(String.format("마지막 수정 시간 : %s", Files.getLastModifiedTime(path)));
+System.out.println(String.format("파일 크기 : %s", Files.size(path)));
+System.out.println(String.format("소유자 : %s", Files.getOwner(path)));
+System.out.println(String.format("숨김 여부 : %s", Files.isHidden(path)));
+System.out.println(String.format("읽기 가능 여부 : %s", Files.isReadable(path)));
+System.out.println(String.format("쓰기 여부 : %s", Files.isWritable(path)));
+```
+
+Files.method(path)를 통해 다양한 값들을 받아올 수 있다.
+
+```java
+Files.createDirectories(path);
+```
+
+디렉토리나 파일을 만들 수 있다.
+
+```java
+DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path);
+```
+
+해당 경로의 자식들을 소유한 콜랙션을 생성할 수 있다.
+
+```java
+for (Path p : directoryStream){}
+```
+
+반복문을 통해 순회도 가능하다.
+
+```java
+Files.deleteIfExists(path);
+```
+
+해당 경로의 파일(디렉토리)을 삭제할 수 있다.
+
+```java
+WatchService watchService = FileSystems.getDefault().newWatchService();
+path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
+while (true){
+    WatchKey watchKey= watchService.take();
+    List<WatchEvent<?>> events=watchKey.pollEvents();
+    for (WatchEvent<?> event : events) {
+        Path eventPath = (Path)event.context();
+        WatchEvent.Kind<?> kind = event.kind();
+
+        if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
+            System.out.println(
+                    String.format("파일 %s 가 생성되었습니다.",
+                            eventPath.getFileName()));
+        }
+        else if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
+            System.out.println(
+                    String.format("파일 %s 가 수정되었습니다.",
+                            eventPath.getFileName()));
+        }
+        else if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
+            System.out.println(
+                    String.format("파일 %s 가 삭제되었습니다.",
+                            eventPath.getFileName()));
+        }
+    }
+
+    boolean valid = watchKey.reset();
+
+    if (!valid) {
+        break;
+    }
+}
+watchService.close();
+```
+
+파일의 변경을 감지할 수 있다.
+
+### Buffer
+
+```java
+//1
+ByteBuffer byteBuffer = ByteBuffer.allocate(10);
+//2
+byte[] bytes=new byte[]{1,2,3,4,5};
+ByteBuffer byteBuffer2=ByteBuffer.wrap(bytes);
+```
+
+두 가지 방법으로 ByteBuffer를 생성할 수 있다.
+
+```java
+buffer.limit();
+buffer.capacity();
+buffer.position();
+```
+
+버퍼의 limit, capacity, position을 반환한다.
+
+```java
+byteBuffer.put(byte);
+```
+
+버퍼에 값을 추가한다.
+
+```java
+byteBuffer2.get();
+```
+
+버퍼 값을 반환한다.
+
+```java
+byteBuffer.flip();
+```
+
+버퍼의 포지션을 맨 앞으로 옮긴다. (limit이 값이 있는 버퍼의 크기로 줄어든다)
+
+```java
+byteBuffer.rewind();
+```
+
+버퍼의 포지션을 맨 앞으로 옮긴다.
+
+```java
+byteBuffer.clear();
+```
+
+버퍼의 limit을 초기화한다.
+
+```java
+byteBuffer.mark();
+byteBuffer.reset();
+```
+
+버퍼의 position을 mark한 곳으로 reset한다.
+

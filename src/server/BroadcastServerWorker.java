@@ -1,9 +1,9 @@
 package server;
 
 import java.io.IOException;
+import java.util.List;
 
-public class EchoServerWorker extends SocketWorkerAdapter {
-
+public class BroadcastServerWorker extends SocketWorkerAdapter {
     @Override
     public void startTalking() throws IOException {
 
@@ -11,7 +11,11 @@ public class EchoServerWorker extends SocketWorkerAdapter {
 
     @Override
     public void listen(String message) throws IOException {
-        os.write(message.getBytes());
+
+    }
+
+    public byte[] broadcast(byte[] message) {
+        return message;
     }
 
 }

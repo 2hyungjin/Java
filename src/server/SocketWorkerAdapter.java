@@ -7,7 +7,6 @@ import java.net.Socket;
 
 
 public abstract class SocketWorkerAdapter implements SocketWorker {
-
     protected Socket socket;
 
     protected InputStream is;
@@ -58,13 +57,11 @@ public abstract class SocketWorkerAdapter implements SocketWorker {
         public void run() {
             byte[] buffer = new byte[1024];
             int length;
-
             try {
                 while (true) {
                     length = is.read(buffer);
                     listen(new String(buffer, 0, length));
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

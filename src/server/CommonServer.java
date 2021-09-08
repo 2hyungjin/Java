@@ -2,19 +2,24 @@ package server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommonServer {
 
     private ServerSocket serverSocket;
+    private List<Agent> agentList;
 
     public void startServer(int port) {
         try {
             serverSocket = new ServerSocket(port);
+            agentList = new ArrayList<>();
             while (true) {
                 Socket socket = serverSocket.accept();
 
                 Agent agent = new Agent(socket);
                 new Thread(agent).start();
+                agentList.add(agent);
             }
 
         } catch (Exception e) {
@@ -32,15 +37,17 @@ public class CommonServer {
         @Override
         public void run() {
             try {
-                SocketWorker socketWorker = new EchoServerWorker();
+                BroadcastServerWorker socketWorker = new BroadcastServerWorker();
                 socketWorker.setSocket(socket);
                 socketWorker.prepareTalking();
                 socketWorker.startTalking();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     public static void main(String[] args) {
         try {
