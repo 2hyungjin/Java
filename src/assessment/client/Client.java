@@ -19,24 +19,21 @@ public class Client implements Listener {
         user = new User(socket);
 
         listenerThread = new ListenerThread(socket, this);
-        System.out.println("make lt /: " + listenerThread.toString() + listenerThread.hashCode());
         receiveMessage();
     }
 
     public void sendMessage(String head, String payload) {
         byte[] message = String.format("%s%04d%s", head, payload.length(), payload).getBytes(StandardCharsets.UTF_8);
-        System.out.println(new String(message));
         try {
             OutputStream os = socket.getOutputStream();
             os.write(message);
             os.flush();
         } catch (IOException e) {
-            closeSocket(socket);
+            e.printStackTrace();
         }
     }
 
     private void receiveMessage() {
-        listenerThread.setDaemon(true);
         listenerThread.start();
     }
 
@@ -91,7 +88,7 @@ public class Client implements Listener {
     }
 
     private void executeJR(String payload) {
-        System.out.println(payload);
+        System.out.println(payload+ "이 입장했습니다.");
     }
 
     private void executeGR(String payload) {
@@ -119,13 +116,12 @@ public class Client implements Listener {
     }
 
     private void executeWA(String payload) {
-        System.out.println(payload);
+        System.out.println(payload+ "이가 추방당했습니다.");
     }
 
 
     @Override
     public void onListenFailed(Socket socket) {
-        closeSocket(socket);
     }
 
 }

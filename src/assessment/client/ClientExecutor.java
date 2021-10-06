@@ -3,7 +3,6 @@ package assessment.client;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 import java.util.Scanner;
 
 public class ClientExecutor {
@@ -20,8 +19,12 @@ public class ClientExecutor {
             while (true) {
                 message = scanner.nextLine();
                 client.sendMessage(message.substring(0, 2), message.substring(2));
+                if (message.equals("quit")){
+                    System.exit(0);
+                }
             }
         } catch (IOException e) {
+            System.out.println("연결 종료");
             e.printStackTrace();
         }
     }

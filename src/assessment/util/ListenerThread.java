@@ -16,6 +16,7 @@ public class ListenerThread extends Thread {
         try {
             is = socket.getInputStream();
         } catch (IOException e) {
+            listener.onListenFailed(socket);
             e.printStackTrace();
         }
 
@@ -44,7 +45,6 @@ public class ListenerThread extends Thread {
         String head = new String(bytes, 0, 2);
         int length = Integer.parseInt(new String(bytes, 2, 4));
         String payload = new String(bytes, 6, length);
-        System.out.println("listener " + payload);
         listener.onListened(head, payload, socket);
     }
 

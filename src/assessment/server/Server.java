@@ -8,16 +8,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+//10.80.162.84
 public class Server implements Listener {
     private static final int PORT = 1200;
     private ServerSocket serverSocket;
     private ListenerThread listenerThread;
-    private ByteBuffer buffer;
 
     private List<User> userList = null;
 
@@ -41,7 +40,6 @@ public class Server implements Listener {
 
         //리스너 쓰레드
         listenerThread = new ListenerThread(socket, this);
-        System.out.println("lt : " + listenerThread.toString() + listenerThread.hashCode());
         listenerThread.start();
     }
 
@@ -91,7 +89,8 @@ public class Server implements Listener {
             OutputStream os = socket.getOutputStream();
             os.write(message);
             os.flush();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            onListenFailed(socket);
             e.printStackTrace();
         }
     }
@@ -149,13 +148,14 @@ public class Server implements Listener {
         }
 
         sendMessage(socket, "UR", userListFordata.toString().
-
-                replaceAll(" ", ""));
+                replaceAll(" ", "")
+                .replace("[", "")
+                .replace("]", ""));
 
         //JR 반환
         for (User u : userList) {
             if (u != user) {
-                sendMessage(u.socket, "JR", user.id + " " + user.name + "이 입장했습니다.");
+                sendMessage(u.socket, "JR", user.id + " " + user.name);
             }
         }
     }
@@ -171,9 +171,11 @@ public class Server implements Listener {
     private void executeSM(String message, Socket socket) {
         //SR 보내기
         String receiver = message.substring(0, 4);
-        String payload = "receiver -> " + message.substring(5);
+        String sender = findTarget(socket).id;
         User target = findTarget(receiver);
-        if (target!=null){
+        String payload = sender + " -> " + message.substring(4);
+
+        if (target != null) {
             sendMessage(target.socket, "GR", payload);
         }
     }
@@ -186,12 +188,12 @@ public class Server implements Listener {
                     if (message.equals(u.id)) {
                         //WR 반환
                         sendMessage(u.socket, "WR", "0000");
+                        closeSocket(u.socket);
                     } else {
                         //WA 반환
-                        sendMessage(u.socket, "WA", findTarget(socket).id + "이가 추방당했습니다.");
+                        sendMessage(u.socket, "WA", target.id);
                     }
                 }
-                closeSocket(socket);
             }
             userList.remove(target);
         }
@@ -200,12 +202,13 @@ public class Server implements Listener {
 
     @Override
     public void onListenFailed(Socket socket) {
+        System.out.println("DC called");
         User target = findTarget(socket);
         for (User u : userList) {
             if (u == target) {
-                sendMessage(u.socket, "DC", target.id);
-            } else {
                 closeSocket(socket);
+            } else {
+                sendMessage(u.socket, "DC", target.id);
             }
         }
         userList.remove(target);
