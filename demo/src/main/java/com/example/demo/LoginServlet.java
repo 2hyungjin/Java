@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.service.CookieSessionManager;
 import com.example.demo.service.SessionManager;
+import com.example.demo.service.SessionManagerMaker;
+import com.example.demo.service.SessionSessionManager;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -19,8 +21,8 @@ public class LoginServlet extends HttpServlet {
 
         // id pw 검증
 
-        SessionManager sessionManager= new CookieSessionManager();
-        sessionManager.doLogin(request,response,id);
+        SessionManager sessionManager = SessionManagerMaker.make();
+        sessionManager.doLogin(request, response, id);
 
         response.sendRedirect("work.jsp");
     }

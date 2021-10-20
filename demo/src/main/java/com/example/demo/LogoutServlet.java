@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.service.CookieSessionManager;
 import com.example.demo.service.SessionManager;
+import com.example.demo.service.SessionManagerMaker;
+import com.example.demo.service.SessionSessionManager;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -14,7 +16,7 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/http;charset=UTF-8");
 
-        SessionManager sessionManager = new CookieSessionManager();
+        SessionManager sessionManager = SessionManagerMaker.make();
         sessionManager.doLogout(request, response);
 
 
