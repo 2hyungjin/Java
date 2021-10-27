@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입</title>
+    <style>
+        h1 {
+            width: 400px;
+            margin: 10px auto 10px auto
+        }
+
+        .wrap {
+            width: 400px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 15px auto 10px auto;
+        }
+
+        .wrap > div {
+            padding: 5px;
+        }
+
+        .wrap > div > laber {
+            display: inline-block;
+            width: 100px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>회원 가입</h1>
+<form method="post" action="member/register.do">
+    <div class="wrap">
+        <div>
+            <label>id</label>
+            <input type="text" name="email"/>
+        </div>
+        <div>
+            <label>pw</label>
+            <input type="password" name="password"/>
+        </div>
+        <div>
+            <label>pw again</label>
+            <input type="password" name="pwValidation"/>
+        </div>
+        <div>
+            <label>이름</label>
+            <input type="text" name="name"/>
+        </div>
+        <div>
+            <label>연락처</label>
+            <input type="text" name="contact"/>
+        </div>
+        <div>
+            <label>생년월일</label>
+            <input type="date" name="birthday"/>
+        </div>
+        <div>
+            <label></label>
+            <input type="submit" value="가입"/>
+        </div>
+    </div>
+</form>
+</body>
+</html>

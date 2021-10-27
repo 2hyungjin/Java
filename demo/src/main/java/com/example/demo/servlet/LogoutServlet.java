@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.servlet;
 
 import com.example.demo.service.CookieSessionManager;
 import com.example.demo.service.SessionManager;

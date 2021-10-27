@@ -1,5 +1,7 @@
 <%@ page import="com.example.demo.service.SessionManager" %>
-<%@ page import="com.example.demo.service.CookieSessionManager" %><%--
+<%@ page import="com.example.demo.service.CookieSessionManager" %>
+<%@ page import="com.example.demo.service.SessionSessionManager" %>
+<%@ page import="com.example.demo.service.SessionManagerMaker" %><%--
   Created by IntelliJ IDEA.
   User: jinstonlee
   Date: 2021/10/20
@@ -8,7 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    SessionManager sessionManager = new CookieSessionManager();
+    SessionManager sessionManager = SessionManagerMaker.make();
 
     String id = sessionManager.getId(request);
     if (!sessionManager.isAuthorized(request)) {
